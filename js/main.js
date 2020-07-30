@@ -480,7 +480,7 @@ function finishRoll(t, e) {
         }
     }
     null != t.balance && updateBalance(t.balance, false), setTimeout(function() {
-        cd(t.count),
+        cd(t.count, t.count),
             $(".total,.mytotal,.totalCount").removeClass("text-success text-danger").html(0), $(".round_players li").remove(), snapRender(), $(".betButton").prop("disabled", !1), SHOWBETS = !0;
         for (var a = 0; a < 3; a++) {
             $("#panel" + t.nets[a].lower + "-" + t.nets[a].upper + "-t").find(".total").removeClass('jackpot_count');
@@ -941,8 +941,9 @@ function __SOCKET_EVENT_CRASH_HELLO(data) {
 
 }
 
-function cd(t, e) {
-    $(".bar").finish().css("width", "100%");
+function cd(t, default_t, e) {
+    var width = (t / default_t * 100).toFixed(2)
+    $(".bar").finish().css("width", width + "%");
     $(".bar").animate({
         'width': '0%'
     }, {
@@ -1082,7 +1083,7 @@ function __SOCKET_EVENT_LOGINS(data) {
 function __SOCKET_EVENT_HELLO(data) {
     
 
-    cd(data.count);
+    cd(data.count, data.roll_cooldown);
     USER = data.user;
     RANK = data.rank;
     UNAME = data.name;
